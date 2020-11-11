@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example</title>
+    <script src="web-key.js"></script>
+    <script src="item-/script.js"></script>
+</head>
+<body>
+    <h1>WebKey</h1>
+    <item- text="Example" dark></item->
+    <button>Toggle Theme</button>
+    <item-></item->
+    <script>
+        document.querySelector('button').addEventListener('click', function () {
+            const elm = this.previousElementSibling
+            elm.hasAttribute('dark') ? elm.removeAttribute('dark') : elm.setAttribute('dark', '')
+        })
+    </script>
+</body>
+
+</html>

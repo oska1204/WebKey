@@ -1,0 +1,12 @@
+:host {
+    font-family: sans-serif;
+    display: block;
+    width: fit-content;
+    --default-light-background: hsl(350 100% 97% / 1);
+    --default-dark-background: hsl(271 76% 3% / 1);
+    background: var(--light-background, var(--default-light-background));
+}
+
+h1 {
+    padding: .5em;
+}

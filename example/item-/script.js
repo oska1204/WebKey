@@ -1,3 +1,5 @@
+import WebKey from '/web-key.js'
+
 /*
 HTML output:
 <div class="wrapper">

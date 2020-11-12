@@ -9,7 +9,7 @@
 .wrapper {
     --background: var(--light-background, var(--default-light-background));
     --gradient: var(--light-gradient, var(--default-light-gradient));
-    
+
     color: black;
     background: var(--background, var(--default-background));
     font-family: sans-serif;
@@ -32,16 +32,16 @@ h1 {
 }
 
 h1 span:hover {
-    animation: color-hover .112s linear;
+    animation: color-hover 0.112s linear;
 }
 
 @keyframes color-hover {
     from {
-        -webkit-text-fill-color: yellow;
-        text-fill-color: yellow;
+        -webkit-text-fill-color: hsla(0 0% 100% / 0.1);
+        text-fill-color: hsla(0 0% 100% / 0.1);
     }
     to {
-        -webkit-text-fill-color: yellow;
-        text-fill-color: yellow;
+        -webkit-text-fill-color: hsla(0 0% 100% / 0.1);
+        text-fill-color: hsla(0 0% 100% / 0.1);
     }
 }

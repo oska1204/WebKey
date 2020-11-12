@@ -1,4 +1,4 @@
-{
+export default (() => {
 const getPath = () => {
     return new Error()
         .stack
@@ -139,4 +139,6 @@ window.WebKey = class WebKey extends HTMLElement {
         })
     }
 }
-}
+
+return WebKey
+})()

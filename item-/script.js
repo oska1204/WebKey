@@ -1,6 +1,8 @@
 /*
 HTML output:
-<h1 contenteditable></h1>
+<div class="wrapper">
+    <h1 contenteditable></h1>
+</div>
 
 Data input:
 - text
@@ -23,10 +25,15 @@ customElements.define('item-', class extends WebKey {
     }
     
     contentLoaded() {
+        this.elms.wrapper = this.shadowRoot.querySelector('.wrapper')
         this.elms.h1 = this.shadowRoot.querySelector('h1')
-        this.elms.h1.addEventListener('blur', e => {
+        this.setEventListener(this.elms.h1, 'blur', e => {
             this.text = e.target.textContent
         })
+    }
+
+    contentRemoved() {
+        this.text = 'I got removed ><span style="-webkit-text-fill-color: red;">:</span>('
     }
 
     static get observedAttributes() {
@@ -43,11 +50,7 @@ customElements.define('item-', class extends WebKey {
     }
 
     render_text() {
-        this.elms.h1.innerHTML = this.text.replace(/./g, (e, i, str) => {
-            const hue = (240 + (i / str.length) * 30).toFixed(2)
-            const light = this.dark ? 55 : 25
-            return `<span style="color:hsl(${hue}deg 50% ${light}%);">${e}</span>`
-        })
+        this.elms.h1.innerHTML = this.text.replace(/./g, e => `<span>${e}</span>`)
     }
 
     get dark() {
@@ -60,7 +63,7 @@ customElements.define('item-', class extends WebKey {
     }
 
     render_dark() {
-        this.style.background = this.dark ? 'var(--dark-background, var(--default-dark-background))' : ''
+        this.elms.wrapper.classList.toggle('dark')
         this.render_text()
     }
 })

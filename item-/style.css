@@ -1,12 +1,47 @@
 :host {
-    font-family: sans-serif;
-    display: block;
-    width: fit-content;
     --default-light-background: hsl(350 100% 97% / 1);
+    --default-light-gradient: linear-gradient(90deg, hsl(240 50% 25%), hsl(270 50% 25%));
+
     --default-dark-background: hsl(271 76% 3% / 1);
-    background: var(--light-background, var(--default-light-background));
+    --default-dark-gradient: linear-gradient(90deg, hsl(240 50% 55%), hsl(270 50% 55%));
+}
+
+.wrapper {
+    --background: var(--light-background, var(--default-light-background));
+    --gradient: var(--light-gradient, var(--default-light-gradient));
+    
+    color: black;
+    background: var(--background, var(--default-background));
+    font-family: sans-serif;
+    width: fit-content;
+}
+
+.wrapper.dark {
+    --background: var(--dark-background, var(--default-dark-background));
+    --gradient: var(--dark-gradient, var(--default-dark-gradient));
+
+    color: white;
 }
 
 h1 {
-    padding: .5em;
+    padding: 0.5em;
+    background: var(--gradient, var(--default-gradient));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h1 span:hover {
+    animation: color-hover .112s linear;
+}
+
+@keyframes color-hover {
+    from {
+        -webkit-text-fill-color: yellow;
+        text-fill-color: yellow;
+    }
+    to {
+        -webkit-text-fill-color: yellow;
+        text-fill-color: yellow;
+    }
 }

@@ -20,9 +20,9 @@ const init = async elm => {
     const initContent = () => {
         elm.shadowRoot.appendChild(templates[path].content.cloneNode(true))
         elm.isContentLoaded = true
-        elm.dispatchEvent(new CustomEvent('content-loaded'))
         elm.removeEventListener('fetched', initContent)
-        elm.removeEventListener('content-loaded', elm.initContent)
+        elm.dispatchEvent(new CustomEvent('content-loaded'))
+        elm.updateFrontEnd()
     }
     if (templates[path].isFetched === 0) {
         templates[path].isFetched = 1
@@ -44,16 +44,29 @@ window.WebKey = class WebKey extends HTMLElement {
     constructor() {
         super()
         this.isContentLoaded = false
+        this._eventListeners = []
         this._obj = {}
         this._data = new Proxy(this._obj, {
             set: (obj, prop, value) => {
                 obj[prop] = value
-                this.renderProp(prop, value)
+                this.renderProp(prop)
                 return true
             }
         })
-        this.addEventListener('content-loaded', this.initContent)
+        this.addEventListener('content-loaded', this.contentLoaded)
         init(this)
+    }
+
+    connectedCallback() {
+        if (this.isContentLoaded) {
+            this.contentLoaded()
+            this.updateFrontEnd()
+        }
+    }
+
+    disconnectedCallback() {
+        this.disconnectEventListeners()
+        this.contentRemoved()
     }
 
     static get observedAttributes() {
@@ -64,17 +77,17 @@ window.WebKey = class WebKey extends HTMLElement {
         this[name] = newValue
     }
 
-    initContent() {
-        if (typeof this.contentLoaded === 'function')
-            this.contentLoaded()
-        this.updateUI()
+    contentLoaded() {
     }
 
-    updateUI() {
+    contentRemoved() {
+    }
+
+    updateFrontEnd() {
         for (const prop in this.data) {
             if (this.data.hasOwnProperty(prop)) {
                 const value = this.data[prop]
-                this.renderProp(prop, value)
+                this.renderProp(prop)
             }
         }
     }
@@ -92,9 +105,9 @@ window.WebKey = class WebKey extends HTMLElement {
         }
     }
 
-    renderProp(prop, value) {
+    renderProp(prop) {
         if (this.isContentLoaded && typeof this[this.getRenderName(prop)] === 'function')
-            this[this.getRenderName(prop)](value)
+            this[this.getRenderName(prop)]()
     }
 
     getRenderName(prop) {
@@ -112,6 +125,18 @@ window.WebKey = class WebKey extends HTMLElement {
         const initial = template.computedStyleMap().get('font-family').toString()
         template.remove()
         return initial
+    }
+
+    setEventListener(target, type, listener) {
+        target.addEventListener(type, listener)
+        this._eventListeners.push({ target, type, listener })
+    }
+
+    disconnectEventListeners() {
+        this._eventListeners.forEach(obj => {
+            const { target, type, listener } = obj
+            target.removeEventListener(type, listener)
+        })
     }
 }
 }

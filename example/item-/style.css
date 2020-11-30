@@ -31,7 +31,7 @@ h1 {
     -webkit-text-fill-color: transparent;
 }
 
-h1 span:hover {
+h1:hover {
     animation: color-hover 0.112s linear;
 }
 
@@ -44,4 +44,8 @@ h1 span:hover {
         -webkit-text-fill-color: hsla(0 0% 100% / 0.1);
         text-fill-color: hsla(0 0% 100% / 0.1);
     }
+}
+
+.removed {
+    -webkit-text-fill-color: red;
 }

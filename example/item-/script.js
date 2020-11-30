@@ -21,7 +21,7 @@ CSS variables:
 
 customElements.define('item-', class extends WebKey {
     constructor() {
-        super()
+        super('text', 'dark')
         this.elms = {}
         this.text = 'Initial'
     }
@@ -35,37 +35,36 @@ customElements.define('item-', class extends WebKey {
     }
 
     contentRemoved() {
-        this.text = 'I got removed ><span style="-webkit-text-fill-color: red;">:</span>('
+        this.text = 'I got removed ><span class="removed">:</span>('
     }
 
     static get observedAttributes() {
         return ['text', 'dark']
     }
 
-    get text() {
-        return this.data.text
+    get_text(value) {
+        return value
     }
 
-    set text(value) {
-        this.data.text = value || 'Default'
-        return true
+    set_text(value) {
+        return value || 'Default'
     }
 
     render_text() {
-        this.elms.h1.innerHTML = this.text.replace(/./g, e => `<span>${e}</span>`)
+        this.elms.h1.innerHTML = this.text.replace(/./g, e => `${e}`)
     }
 
-    get dark() {
-        return this.data.dark
+    get_dark(value) {
+        return value
     }
 
-    set dark(value) {
-        this.data.dark = value !== null
-        return true
+    set_dark(value) {
+        return value !== null
     }
 
     render_dark() {
-        this.elms.wrapper.classList.toggle('dark')
+        const classList = this.elms.wrapper.classList
+        this.dark ? classList.add('dark') : classList.remove('dark')
         this.render_text()
     }
 })

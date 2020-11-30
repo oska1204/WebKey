@@ -38,10 +38,11 @@ export default (() => {
             initContent()
         }
     }
-
+    
     window.WebKey = class WebKey extends HTMLElement {
-        constructor() {
+        constructor(...props) {
             super()
+            this.defaultProps(...props)
             this.isContentLoaded = false
             this._eventListeners = []
             this._obj = {}
@@ -54,6 +55,29 @@ export default (() => {
             })
             this.addEventListener('content-loaded', this.contentLoaded)
             init(this)
+        }
+
+        defaultProps(...props) {
+            props.forEach(prop => {
+                Object.defineProperty(this, prop, {
+                    get: () => {
+                        const name = `get_${prop}`
+                        if (typeof this[name] === 'function')
+                            return this[name](this.data[prop])
+                        return this.data[prop]
+                    },
+                    set: (value) => {
+                        const name = `set_${prop}`
+                        if (typeof this[name] === 'function')
+                            this.data[prop] = this[name](value)
+                        else
+                            this.data[prop] = value
+                        return true
+                    },
+                    enumerable: true,
+                    configurable: true
+                })
+            })
         }
 
         connectedCallback() {

@@ -1,4 +1,4 @@
-import WebKey from '/web-key.js'
+import WebKey from '../../web-key.js'
 
 /*
 HTML output:

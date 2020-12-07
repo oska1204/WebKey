@@ -22,14 +22,14 @@ CSS variables:
 customElements.define('item-', class extends WebKey {
     constructor() {
         super('text', 'dark')
-        this.elms = {}
         this.text = 'Initial'
     }
     
     contentLoaded() {
         this.elms.wrapper = this.shadowRoot.querySelector('.wrapper')
         this.elms.h1 = this.shadowRoot.querySelector('h1')
-        this.setEventListener(this.elms.h1, 'blur', e => {
+        const { h1 } = this.elms
+        this.setEventListener(h1, 'blur', e => {
             this.text = e.target.textContent
         })
     }
@@ -42,28 +42,22 @@ customElements.define('item-', class extends WebKey {
         return ['text', 'dark']
     }
 
-    get_text(value) {
-        return value
-    }
-
     set_text(value) {
         return value || 'Default'
     }
 
     render_text() {
-        this.elms.h1.innerHTML = this.text.replace(/./g, e => `${e}`)
-    }
-
-    get_dark(value) {
-        return value
+        const { h1 } = this.elms
+        h1.innerHTML = this.text.replace(/./g, e => `${e}`)
     }
 
     set_dark(value) {
-        return value !== null
+        return value !== null && value !== false
     }
 
     render_dark() {
-        const classList = this.elms.wrapper.classList
+        const { wrapper } = this.elms
+        const classList = wrapper.classList
         this.dark ? classList.add('dark') : classList.remove('dark')
         this.render_text()
     }

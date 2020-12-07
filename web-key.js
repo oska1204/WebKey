@@ -44,6 +44,7 @@ export default (() => {
             super()
             this.defaultProps(...props)
             this.isContentLoaded = false
+            this.elms = {}
             this._eventListeners = []
             this._obj = {}
             this._data = new Proxy(this._obj, {

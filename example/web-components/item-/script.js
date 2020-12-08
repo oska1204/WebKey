@@ -1,5 +1,3 @@
-import WebKey from '../../web-key.js'
-
 /*
 HTML output:
 <div class="wrapper">
@@ -24,10 +22,16 @@ customElements.define('item-', class extends WebKey {
         super('text', 'dark')
         this.text = 'Initial'
     }
-    
-    contentLoaded() {
-        this.elms.wrapper = this.shadowRoot.querySelector('.wrapper')
-        this.elms.h1 = this.shadowRoot.querySelector('h1')
+
+   contentLoaded() {
+        const {
+            addElms,
+            query,
+        } = this
+        addElms({
+            wrapper: query('.wrapper'),
+            h1: query('h1'),
+        })
         const { h1 } = this.elms
         this.setEventListener(h1, 'blur', e => {
             this.text = e.target.textContent
@@ -48,17 +52,20 @@ customElements.define('item-', class extends WebKey {
 
     render_text() {
         const { h1 } = this.elms
-        h1.innerHTML = this.text.replace(/./g, e => `${e}`)
+        h1.innerHTML = this.text
     }
 
     set_dark(value) {
-        return value !== null && value !== false
+        return value !== null
+            && value !== false
     }
 
     render_dark() {
+        const { dark } = this
         const { wrapper } = this.elms
-        const classList = wrapper.classList
-        this.dark ? classList.add('dark') : classList.remove('dark')
-        this.render_text()
+        const { classList } = wrapper
+        dark
+            ? classList.add('dark')
+            : classList.remove('dark')
     }
 })

@@ -1,7 +1,6 @@
 customElements.define('template-', class extends WebKey {
     constructor() {
         super('blank')
-        this.elms = {}
     }
     
     contentLoaded() {
